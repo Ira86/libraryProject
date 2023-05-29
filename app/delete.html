@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App - delete</title>
+    <!-- <link rel="stylesheet" href="/styles.css"> -->
+</head>
+<body>
+    <h1>App > delete</h1>
+
+    <label for="book_id">Id</label>
+    <input id="book_id" type="text" name="book_id" autofocus/>
+
+    <br>
+
+    <button id="btnDelete" class="button-delete" type="submit">delete</button>
+
+    <script>
+
+        var btnDelete = document.querySelector('#btnDelete')
+
+        btnDelete.addEventListener('click', () => {
+
+            const options = {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ book_id: book_id.value })
+            };
+            fetch('http://localhost:4001/book/remove', options)
+            .then(response => console.log(response))
+            .catch(error => {
+                console.error(error);
+            });
+        });
+</script>
+</body>
+</html>
