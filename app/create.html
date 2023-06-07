@@ -4,35 +4,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App - create</title>
-    <!-- <link rel="stylesheet" href="/styles.css">  -->
+    <title>App - Start</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- HÄMTA CSS-fil -->
 </head>
 <body>
-    <h1>App > Create</h1>
+    <h1 class="intro">Lägg till en bok!</h1>
 
-    <label for="title">title</label>
-    <input id="title" type="text" name="title" autofocus/>
-
-    <label for="author">author</label>
-    <input id="author" type="text" name="author" />
-    
-    <label for="publication_date">Date and year</label>
-    <input id="publication_date" type="number" name="publication_date" />
-    
+    <!-- Registreringsformulär -->
+    <label for="title">Titel</label>
+    <input class="addBookInput" id="title" type="text" name="title" autofocus />
+    <br>
+    <label for="author">Author</label>
+    <input class="addBookInput2" id="author" type="text" name="author" />
+<br>
+    <label for="publication_date">Year</label>
+    <input class="addBookInput3" id="publication_date" type="text" name="publication_date" />
+<br>
     <label for="genre">Genre</label>
-    <input id="genre" type="text" name="genre" />
+    <input class="addBookInput4" id="genre" type="text" name="genre" />
 
     <br>
 
-    <button id="btnSave" class="button-save" type="submit">Save</button>
+    <button id="btnSave" type="submit">Lägg till</button>
+    <br>
+
 
     <script>
-
-        var btnSave = document.querySelector('#btnSave')
-        var title = document.querySelector('#title')
+        var btnSave = document.querySelector('#btnSave');
+        var title = document.querySelector('#title');
         var author = document.querySelector('#author');
-        var publication_date = document.querySelector('#publication_date');
-        var genre = document.querySelector('#genre');
+        let publication_date = document.querySelector('#publication_date');
+        let genre = document.querySelector('#genre')
 
         btnSave.addEventListener('click', () => {
             const options = {
@@ -49,6 +51,7 @@
 
 
         });
-</script>
+
+    </script>
 </body>
 </html>

@@ -15,7 +15,10 @@
         <br>
         <input id="keyword" type="text" />
         <br>
-        <button id="search">Search</button>
+        <button id="search">Sök författare</button>
+        <button id="type">Sök titel</button>
+
+
     </div>
     <ul id="searchResults">
     </ul>
@@ -35,8 +38,11 @@
         <label for="genre">Genre</label>
         <input id="genre" type="text" name="genre" />
 
-        <label for="available_id">available</label>
-        <input id="available_id" type="number" name="available_id" />
+        <label for="available">Available</label>
+        <input id="available" type="text" name="available" />
+
+        <label for="loaned">Loaned</label>
+        <input id="loaned" type="text" name="loaned" />
 
         <br>
 
@@ -45,14 +51,22 @@
         <br>
 
 
-        <button id="btnDelete" class="button-delete" type="submit">delete</button>
+        <button id="btnDelete" class="button-delete" type="submit">Delete</button>
     </div>
 
     <script>
 
         const btnSearch = document.querySelector('#search');
+        const searchTitle = document.querySelector('#type');
         const btnUpdate = document.querySelector('#btnUpdate');
         const btnDelete = document.querySelector('#btnDelete');
+
+
+     
+        searchTitle.addEventListener('click', () => {
+            printResults('title');
+        })
+
 
         btnSearch.addEventListener('click', () => {
 
@@ -67,7 +81,9 @@
             let author = document.querySelector('#author');
             let publication_date = document.querySelector('#publication_date');
             let genre = document.querySelector('#genre');
-            let available_id = document.querySelector('#available_id');
+            let available = document.querySelector('#available');
+            let loaned = document.querySelector('#loaned');
+
 
 
 
@@ -76,7 +92,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ book_id: book_id.value, title: title.value, author: author.value, publication_date: publication_date.value, genre: genre.value, available_id: available_id.value })
+                body: JSON.stringify({ book_id: book_id.value, title: title.value, author: author.value, publication_date: publication_date.value, genre: genre.value, available: available.value, loaned:loaned.value })
             }
 
             fetch('http://localhost:4001/book/edit', options)
@@ -102,11 +118,11 @@
             .catch(error => console.error(error));
         })
 
-        async function printResults() {
+        async function printResults(type) {
 
             const ul = document.querySelector('#searchResults');
 
-            let data = await getResultsByKeyword();
+            let data = await getResultsByKeyword(type);
 
             for (const book of data) {
 
@@ -120,7 +136,7 @@
                     ul.innerHTML = '';
 
 
-                    setCurrentBook(book.book_id, book.title, book.author, book.publication_date, book.genre, book.available_id);
+                    setCurrentBook(book.book_id, book.title, book.author, book.publication_date, book.genre, book.available, book.loaned);
 
                     displayUpdate();
                 })
@@ -130,13 +146,15 @@
             }
         }
 
-        function setCurrentBook(book_id, title, author, publication_date, genre) {
+        function setCurrentBook(book_id, title, author, publication_date, genre, available, loaned) {
             document.querySelector('#book_id').value = book_id;
             document.querySelector('#title').value = title;
             document.querySelector('#author').value = author;
             document.querySelector('#publication_date').value = publication_date;
             document.querySelector('#genre').value = genre;
-            document.querySelector('#available_id').value = available_id;
+            document.querySelector('#available').value = available;
+            document.querySelector('#loaned').value = loaned;
+
 
         }
 
@@ -152,7 +170,7 @@
         }
 
         // bring the result by keyword
-        async function getResultsByKeyword() {
+        async function getResultsByKeyword(type) {
 
             let keyword = document.querySelector('#keyword').value;
 
@@ -163,7 +181,8 @@
             }}
 
             let response = await fetch('http://localhost:4001/book/search?' + new URLSearchParams({
-                keyword: keyword
+                keyword: keyword, 
+                type: type
             }), options)
             .catch(error => {
                 console.error(error);

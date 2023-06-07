@@ -12,7 +12,7 @@ async function get(req, res) {
 async function search(req, res) {
 
 
-    let data = await getBookByKeyword(req.query.keyword);
+    let data = await getBookByKeyword(req.query.keyword, req.query.type);
 
     // console.log(data);
 
@@ -22,7 +22,7 @@ async function search(req, res) {
 
 async function add(req, res) {
 
-    await addBook(req.body.title, req.body.author, req.body.publication_date, req.body.genre, req.body.available_id);
+    await addBook(req.body.title, req.body.author, req.body.publication_date, req.body.genre);
 
     res.sendStatus(200);
 }
@@ -30,7 +30,7 @@ async function add(req, res) {
 
 async function edit(req, res) {
 
-    await editBook(req.body.book_id, req.body.title, req.body.author, req.body.publication_date, req.body.genre, req.body.available_id);
+    await editBook(req.body.book_id, req.body.title, req.body.author, req.body.publication_date, req.body.genre);
 
     res.sendStatus(200);
 
